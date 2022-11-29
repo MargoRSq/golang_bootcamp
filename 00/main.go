@@ -1,16 +1,19 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
 	"math"
+	"os"
 	"sort"
+	"strconv"
 )
 
 func main() {
+	fgs := initFlags()
 	arr := getInput()
 	sort.Float64s(arr)
-	fgs := initFlags()
 	output(arr, fgs)
 }
 
@@ -32,15 +35,15 @@ func output(arr []float64, fgs flags) {
 		fmt.Println("Mode: ", FindMode(arr))
 	}
 	if *fgs.sdFlag {
-		fmt.Printf("Median: %.2f\n", CalcSD(arr))
+		fmt.Printf("SD: %.2f\n", CalcSD(arr))
 	}
 }
 
 func initFlags() (fgs flags) {
-	fgs.meanFlag = flag.Bool("mean", false, "-mean")
-	fgs.medFlag = flag.Bool("median", false, "-median")
-	fgs.modeFlag = flag.Bool("mode", false, "-mode")
-	fgs.sdFlag = flag.Bool("sd", false, "-sd")
+	fgs.meanFlag = flag.Bool("mean", false, "use -mean to calculate mean")
+	fgs.medFlag = flag.Bool("median", false, "use -median to calculate median")
+	fgs.modeFlag = flag.Bool("mode", false, "use -mode to find mode")
+	fgs.sdFlag = flag.Bool("sd", false, "use -sd to calculate standard deviation")
 	flag.Parse()
 	if flag.NFlag() == 0 {
 		*fgs.meanFlag = true
@@ -52,21 +55,28 @@ func initFlags() (fgs flags) {
 }
 
 func getInput() []float64 {
-	var amount int
-	fmt.Scan(&amount)
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+
+	amount, err := strconv.Atoi(scanner.Text())
+	if err != nil || amount <= 0 {
+		fmt.Println("Invalid amount format, err:", err)
+		os.Exit(1)
+	}
 
 	numbers := make([]float64, amount)
-	var tmp float64
-	for i := 0; i < amount; i++ {
-		_, err := fmt.Scan(&tmp)
+	for i := 0; i < amount; {
+		scanner.Scan()
+		f, err := strconv.ParseFloat(scanner.Text(), 64)
 		if err != nil {
 			fmt.Println("Invalid input")
 		} else {
-			if tmp > -100000 && tmp < 100000 {
-				numbers[i] = tmp
+			if f > -100000 && f < 100000 {
+				numbers[i] = f
 			} else {
 				fmt.Println("Invalid number")
 			}
+			i++
 		}
 	}
 	return numbers
@@ -85,7 +95,7 @@ func CalcMedian(arr []float64) (median float64) {
 	arrLen := len(arr)
 	if arrLen != 0 {
 		if arrLen%2 == 0 {
-			median = arr[(arrLen/2)-1] + arr[arrLen/2]
+			median = (arr[(arrLen/2)-1] + arr[arrLen/2]) / 2
 		} else {
 			median = arr[arrLen/2]
 		}
