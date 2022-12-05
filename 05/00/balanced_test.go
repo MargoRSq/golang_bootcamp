@@ -42,8 +42,8 @@ var tests = []struct {
 
 func TestBalanced(t *testing.T) {
 	for i, test := range tests {
-	if res := areToysBalanced(test.input); res != test.output {
-		t.Errorf("%d test failed", i)
-	}
+		if res := areToysBalanced(test.input); res != test.output {
+			t.Errorf("%d test failed", i)
+		}
 	}
 }

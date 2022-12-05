@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type TreeNode struct {
 	HasToy bool
 	Left   *TreeNode
@@ -28,16 +30,16 @@ func areToysBalanced(root *TreeNode) (isBalanced bool) {
 	return
 }
 
-// func main() {
+func main() {
 
-// 	root := &TreeNode{HasToy: false}
-// 	root.Left = &TreeNode{HasToy: false}
-// 	root.Left.Left = &TreeNode{HasToy: false}
-// 	root.Left.Right = &TreeNode{HasToy: true}
-// 	root.Right = &TreeNode{HasToy: true}
-// 	root.Right.Right = &TreeNode{HasToy: true}
+	root := &TreeNode{HasToy: false}
+	root.Left = &TreeNode{HasToy: false}
+	root.Left.Left = &TreeNode{HasToy: false}
+	root.Left.Right = &TreeNode{HasToy: true}
+	root.Right = &TreeNode{HasToy: true}
+	root.Right.Right = &TreeNode{HasToy: true}
 
-// 	isBalanced := areToysBalanced(root)
-// 	fmt.Println(isBalanced)
+	isBalanced := areToysBalanced(root)
+	fmt.Println(isBalanced)
 
-// }
+}
