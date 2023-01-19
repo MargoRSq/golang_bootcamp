@@ -1,0 +1,18 @@
+
+<a class="button-1 addarticlebtn" role="button" href="/admin">Add article</a>
+<div class="row">
+{{ range .Items }}
+  <div class="card" >
+    <div class="content">
+      <h2>{{.Title}}</h2>
+      <th scope="col"><a href="/admin/show/{{ .Id }}">View</a></th>
+      <div class="row">
+        <img class="column" src="imgs/cat.jpg" alt="this is cat" height="100">
+        <p class="column"> {{.Content}}</p>
+      </div>
+    </div>
+  </div>
+      {{else}}<div class="container pb-1"><strong>there are no articles yet, add first one</strong></div>
+{{end}}
+</div>
+
